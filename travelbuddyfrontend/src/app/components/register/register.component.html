@@ -1,0 +1,89 @@
+<form [formGroup]="userForm" (ngSubmit)="processUserForm()" class="example-form" class="container mb-5 mt-5">
+
+  <h1 class="display-5 text-dark font-weight-bold">Register</h1>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter your name</mat-label>
+    <input formControlName="name" matInput placeholder="pat">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter your username</mat-label>
+    <input matInput placeholder="pat@example.com" formControlName="username">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter your password</mat-label>
+    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter your DOB</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="dob" [max]="maxDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-radio-group aria-label="Select an option" class="example-full-width mt-5" formControlName="gender">
+    <mat-radio-button [value]='femaleGender'>Female</mat-radio-button>
+    <mat-radio-button [value]='maleGender'>Male</mat-radio-button>
+  </mat-radio-group>
+
+  <br>
+  <button class="mt-3 mb-2" mat-raised-button (click)="openInput()" type="button">Upload Your Profile Picture</button>
+  <input formControlName="image" id="fileInput" hidden type="file" (change)="fileChange($event)" name="file" accept="*">
+  {{fileName || "No file uploaded yet."}}
+
+  <mat-form-field appearance="outline" class="example-full-width mt-3">
+    <mat-label>Country Of Residence</mat-label>
+    <mat-select disableRipple (selectionChange)="onCountryChange($event.value)" formControlName="country">
+      <mat-option *ngFor="let i of countryList" [value]="i">{{i}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="example-full-width">
+    <mat-label>State Of Residence</mat-label>
+    <mat-select disableRipple (selectionChange)="onStateChange($event.value)" formControlName="state">
+      <mat-option *ngFor="let i of stateList" [value]="i" [selected]="Singapore">{{i}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="example-full-width">
+    <mat-label>City Of Residence</mat-label>
+    <mat-select disableRipple formControlName="city">
+      <mat-option *ngFor="let i of cityList" [value]="i">{{i}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-label>Interests</mat-label>
+  <section class="example-section">
+    <mat-checkbox class="example-margin" [formControl]="interest"
+      *ngFor="let interest of interestsArray.controls; let i = index">
+      {{interestLabels[i]}}
+    </mat-checkbox>
+    <p *ngIf="hasUserFormError('interests')" class="notice">Please select at least one</p>
+  </section>
+
+  <mat-form-field appearance="outline" class="example-full-width mt-3">
+    <mat-label>About Me</mat-label>
+    <textarea matInput formControlName="introduction"></textarea>
+  </mat-form-field>
+
+  <div class="mt-3">
+    <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Submit</button>
+  </div>
+  <div *ngIf="failUserMsg" class="notice">
+    {{failUserMsg}}
+  </div>
+  <div *ngIf="successUserMsg">
+    {{successUserMsg}}
+  </div>
+  <div class="dropdown-divider mt-3"></div>
+  <a class="dropdown-item" [routerLink]="['/login']">Have an account already? Login</a>
+
+</form>

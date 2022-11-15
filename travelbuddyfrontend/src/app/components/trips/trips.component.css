@@ -1,0 +1,14 @@
+li{
+    list-style: none;
+}
+
+img{
+    border-radius: 50%;
+    border: 2px solid #fff;
+    height: 150px;
+    width: 150px;
+}
+
+.example-full-width {
+    width: 100%;
+  }

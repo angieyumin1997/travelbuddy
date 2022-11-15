@@ -1,0 +1,204 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<mat-tab-group class="mt-5">
+    <mat-tab label="User Details">
+        <!--start user details-->
+        <div class="container user" *ngIf="userDetails && !editUser">
+            <div class="box">
+                <img src="/api/auth/{{userDetails.username}}" alt="">
+                <ul *ngIf="message && username"> 
+                    <button mat-raised-button color="primary" [routerLink]="['/chats']"
+                        (click)="createChat(userDetails.username)">Message</button>
+                </ul>
+                <ul>
+                    <li>{{userDetails.username}}</li>
+                    <li><i style="font-size:24px" class="fa">&#xf230;</i>
+                        <i style="font-size:24px" class="fa">&#xf0d5;</i>
+                        <i style="font-size:24px" class="fa">&#xf0e1;</i>
+                    </li>
+                </ul>
+            </div>
+            <div class="About">
+                <ul>
+                    <h1>about</h1>
+                </ul>
+                <ul>
+                    <h3>Name</h3>
+                    <li>{{userDetails.name}}</li>
+                </ul>
+                <ul>
+                    <h3>Gender</h3>
+                    <li>{{userDetails.gender}}</li>
+                </ul>
+                <ul>
+                    <h3>DOB</h3>
+                    <li>{{userDetails.dob}}</li>
+                </ul>
+                <ul>
+                    <h3>Country of Residence</h3>
+                    <li>{{userDetails.country}}</li>
+                </ul>
+                <ul>
+                    <h3>State of Residence</h3>
+                    <li>{{userDetails.state}}</li>
+                </ul>
+                <ul>
+                    <h3>City of Residence</h3>
+                    <li>{{userDetails.city}}</li>
+                </ul>
+                <ul>
+                    <h3>Interests</h3>
+                    <li *ngFor="let interest of displayedInterests">{{interest}}</li>
+                </ul>
+                <ul>
+                    <h3>Introduction</h3>
+                    <li>{{userDetails.introduction}}</li>
+                </ul>
+            </div>
+            <div *ngIf="authenticated" class="example-button-row">
+                <a mat-raised-button color="primary" (click)="logout()">Logout</a>
+            </div>
+            <div *ngIf="authenticated" class="example-button-row">
+                <a mat-raised-button color="primary" (click)="editUserForm()">Edit</a>
+            </div>
+        </div>
+        <!--end user details-->
+
+        <!--start edit user form-->
+        <div *ngIf="editUser">
+            <app-edituser [userDetails]="userDetails" [username]="username" (onEditUser)="updateUser($event)"
+                (cancelEditUser)="cancelEditUser($event)">
+            </app-edituser>
+        </div>
+        <!--end edit user form-->
+
+    </mat-tab>
+    <mat-tab label="Trips">
+        <!--start trip details-->
+        <div class="d-flex row justify-content-center" *ngIf="!addTrip">
+            <div class="col-8 col-lg-8 align-self-end" align="right">
+                <div *ngIf="authenticated">
+                    <div class="mt-4">
+                        <a mat-raised-button color="primary" (click)="tripForm()">Add Trip</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 col-lg-8 align-self-center">
+                <mat-card class="mt-5 mb-5" *ngFor="let trip of userTrips; let i = index">
+                    <div align="right" *ngIf="authenticated">
+                        <button mat-fab color="accent" aria-label="Example icon button with a delete icon" (click)="deleteTrip(trip.tripId)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="col-12 col-lg-12 align-self-center flex-fill">
+                            <div class="d-flex row justify-content-center">
+                                <div class="col-lg-6 align-self-center">
+                                    <ul>
+                                        <h3>Start</h3>
+                                        <li>{{trip.start}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 align-self-center">
+                                    <ul>
+                                        <h3>End</h3>
+                                        <li>{{trip.end}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-12 align-self-center flex-fill">
+                            <div class="d-flex row justify-content-center">
+                                <div class="col-lg-6 align-self-center">
+                                    <ul>
+                                        <h3>Location</h3>
+                                        <li>{{trip.location}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 align-self-center">
+                                    <ul>
+                                        <h3>Type</h3>
+                                        <li>{{trip.type}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-12 align-self-center flex-fill">
+                            <div class="d-flex row justify-content-center">
+                                <div class="col-lg-12 align-self-center">
+                                    <ul>
+                                        <h3>Description</h3>
+                                        <li>{{trip.description}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <!--end trip details-->
+
+        <!--start trip form-->
+        <div *ngIf="addTrip">
+            <app-tripform (onNewTrip)="updateTrip($event)" (cancelAddTrip)="cancelAddTrip($event)">
+            </app-tripform>
+        </div>
+        <!--end trip form-->
+
+    </mat-tab>
+    <mat-tab label="Local Offering">
+        <!--start local offering details-->
+        <div *ngIf="!addLocal">
+            <div class="d-flex row justify-content-center">
+                <div class="col-8 col-lg-8 align-self-end mt-3 mb-3" align="right">
+                    <div *ngIf="authenticated" class="mb-4 mt-1">
+                        <div>
+                            <a mat-raised-button color="primary" (click)="editLocal()" *ngIf="userLocal">Edit</a>
+                        </div>
+                        <div>
+                            <a mat-raised-button color="primary" (click)="localForm()" *ngIf="!userLocal">Add Local</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 col-lg-8 align-self-center mb-3">
+                    <mat-card *ngIf="userLocal">
+                        <div align="right" *ngIf="authenticated">
+                            <button mat-fab color="accent" aria-label="Example icon button with a delete icon" (click)="deleteLocal()">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                        <div class="mt-3 mb-3">
+                            <ul>
+                                <h3>Location</h3>
+                                <li>{{userLocal.location}}</li>
+                            </ul>
+                            <ul>
+                                <h3>Activities</h3>
+                                <li *ngFor="let activity of displayedActivities">
+                                    {{activity}}
+                                </li>
+                            </ul>
+                            <ul>
+                                <h3>Description</h3>
+                                <li>{{userLocal.description}}</li>
+                            </ul>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <!--end local offering details-->
+
+        <!--start local offering form-->
+        <div *ngIf="addLocal">
+            <app-localform 
+            (onNewLocal)="updateLocalOffering($event)" 
+            (cancelAddLocal)="cancelAddLocal($event)"
+            [userLocal]="userLocal"
+            [displayedActivities]="displayedActivities">
+            </app-localform>
+        </div>
+        <!--end local offering form-->
+
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,34 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<form [formGroup]="form" (ngSubmit)="processForm()" class="example-form" class="container mb-5 mt-5">
+    <h1 class="display-5 text-dark font-weight-bold">Login</h1>
+
+    <div class="example-container">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Enter your username</mat-label>
+            <input matInput placeholder="pat@example.com" required formControlName="username">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="mb-4" type="submit" [disabled]="form.invalid">Submit</button>
+    <div *ngIf="isLoginFailed">
+        {{errorMessage}}
+      </div>
+    <div class="dropdown-divider mt-3"></div>
+    <a class="dropdown-item" [routerLink]="['/register']">New around here? Register</a>
+
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>

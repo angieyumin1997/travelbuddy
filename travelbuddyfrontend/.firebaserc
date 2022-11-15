@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "travelbuddy-366813": {
+      "hosting": {
+        "travelbuddy": [
+          "travelbuddy-366813"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "travelbuddy-366813"
+  }
+}

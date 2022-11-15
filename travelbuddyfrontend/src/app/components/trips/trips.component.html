@@ -1,0 +1,86 @@
+<div class="d-flex flex-column justify-content-center">
+    <!--start filter-->
+    <div class="col-6 col-lg-6 align-self-center mt-5">
+        <h1 class="display-5 text-dark font-weight-bold">Find your travel buddy here!</h1>
+        <form [formGroup]="formTrip" (ngSubmit)="processTripForm()">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <input type="text" placeholder="Location*" aria-label="Search" matInput formControlName="location"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredSearch" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Start</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="start" [min]="minDate">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>End</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="end"
+                    [min]="formTrip.controls['start'].value">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <div class="mt-3">
+                <button mat-raised-button color="primary" type="submit" [disabled]="formTrip.invalid">Filter</button>
+            </div>
+        </form>
+    </div>
+    <!--end filter-->
+
+    <div class="col-6 col-lg-6 align-self-center">
+        <mat-card class="mt-5 mb-5" *ngFor="let trip of trips; let i = index">
+            <div class="d-flex row justify-content-center">
+                <div class="col-lg-4 align-self-center flex-fill" align="center">
+                    <img src="/api/auth/{{trip.username}}" alt="" class="mb-2">
+                </div>
+                <div class="col-lg-3 align-self-left flex-fill">
+                    <div class="d-flex flex-column justify-content-left">
+                        <ul>
+                            <h3>Username</h3>
+                            <li>{{trip.username}}</li>
+                        </ul>
+
+                        <ul>
+                            <h3>Start</h3>
+                            <li>{{trip.start}}</li>
+                        </ul>
+                        <ul>
+                            <h3>Type</h3>
+                            <li>{{trip.type}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 align-self-left flex-fill">
+                    <div class="d-flex flex-column justify-content-left">
+                        <ul>
+                            <h3>Location</h3>
+                            <li>{{trip.location}}</li>
+                        </ul>
+                        <ul>
+                            <h3>End</h3>
+                            <li>{{trip.end}}</li>
+                        </ul>
+                        <ul>
+                            <h3>Description</h3>
+                            <li>{{trip.description}}</li>
+                        </ul>
+                        <ul>
+                            <button mat-raised-button color="primary" [routerLink]="['/user/', trip.username]">
+                                View Profile
+                            </button>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

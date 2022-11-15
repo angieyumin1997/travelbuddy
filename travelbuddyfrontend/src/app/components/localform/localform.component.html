@@ -1,0 +1,40 @@
+<form [formGroup]="formLocal" (ngSubmit)="processLocalForm()" class="example-form" class="container mb-5 mt-5">
+
+    <h1 class="display-5 text-dark font-weight-bold">Add Local Offering</h1>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+        <input type="text" placeholder="Location*" aria-label="Search" matInput formControlName="location" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredSearch" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <section class="example-section">
+        <mat-checkbox class="example-margin" [formControl]="activity"
+            *ngFor="let activity of activitiesArray.controls; let i = index">
+            {{localActivitiesLabels[i]}}
+        </mat-checkbox>
+        <p *ngIf="hasLocalFormError('activities')" class="notice">Please select at least one</p>
+    </section>
+
+    <mat-form-field appearance="outline" class="example-full-width mt-3">
+        <mat-label>Provide a little more details</mat-label>
+        <textarea matInput formControlName="description"
+            placeholder="What would you like to do with a traveler? Can you share tips and hacks to make your town more fun? What are some of your favourite spots to meet up? When are you mostly available?"></textarea>
+    </mat-form-field>
+
+    <div class="mt-3">
+        <button mat-raised-button color="primary" type="submit" [disabled]="formLocal.invalid">Submit</button>
+        <button mat-raised-button color="primary" type="button" (click)="cancelLocalForm()">Cancel</button>
+    </div>
+
+    <div *ngIf="failLocalMsg">
+        {{failLocalMsg}}
+    </div>
+    <div *ngIf="successLocalMsg">
+        {{successLocalMsg}}
+    </div>
+
+</form>

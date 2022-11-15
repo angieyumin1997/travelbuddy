@@ -1,0 +1,73 @@
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+<div class="container" *ngIf="username">
+  <div class="chat-list mat-elevation-z5">
+    <mat-selection-list [multiple]="false" class="my-5" (selectionChange)="onContactsChange($event)">
+      <mat-divider></mat-divider>
+      <mat-list-option *ngFor="let chat of chats" [value]="chat.recipient">
+        <img matListAvatar
+        src="api/auth/{{chat.recipient}}"/>
+        <p mat-line class="chat-title">
+          <span class="chat-name">
+            {{ chat.recipient }}
+          </span>
+          <span class="chat-date">
+            {{ chat.lastMessageTimeStamp }}
+          </span>
+        </p>
+        <p mat-line>
+          {{ chat.lastMessage }}
+          <button mat-mini-fab style="float: right" *ngIf="chat.newMessageCount && chat.newMessageCount!=0">          
+            {{ chat.newMessageCount }}
+          </button>
+        </p>
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div class="messages mat-elevation-z5">
+    <div class="messages-header"
+    *ngIf="activeContact else noChatSelected">
+      <img src="api/auth/{{activeContact}}"/>
+      <h2>{{ activeContact }}</h2>
+    </div>
+    <ng-template #noChatSelected>
+      <h2>
+        Messages         
+        <button [disabled]="token" mat-stroked-button color="primary" (click)="notifications()">Allow Notifications</button>
+      </h2>
+    </ng-template>
+    <mat-divider></mat-divider>
+    <div class="chat-area">
+      <ng-container *ngIf="username">
+        <ng-container *ngIf="chatMessages">
+          <div
+          class="chat-bubble-container"
+          [ngClass]="{ sender: message.sender === username }"
+          *ngFor="let message of chatMessages">
+            <div class="chat-bubble">
+              {{ message.content }}
+              <span class="chat-time">
+                {{message.timeStamp}}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div #endOfChat></div>
+    </div>
+    <div class="input-area">
+      <mat-form-field appearance="outline" *ngIf="activeContact">
+        <input 
+        [formControl]="messageControl"
+        matInput 
+        placeholder="Enter your message..."
+        (keydown.enter)="sendMessage()" />
+        <button mat-icon-button matSuffix (click)="sendMessage()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

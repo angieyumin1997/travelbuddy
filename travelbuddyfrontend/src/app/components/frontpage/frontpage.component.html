@@ -1,0 +1,35 @@
+<div id="top-wrapper">
+    <ngb-carousel *ngIf="images">
+        <ng-template ngbSlide>
+            <div class="picsum-img-wrapper">
+                <img [src]="images[0]" alt="Random first slide" class="d-block w-100" />
+            </div>
+            <div class="carousel-caption">
+                
+        </div>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img [src]="images[1]" alt="Random second slide" class="d-block w-100" />
+          </div>
+          <div class="carousel-caption">
+          </div>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img [src]="images[2]" alt="Random third slide" class="d-block w-100" />
+          </div>
+          <div class="carousel-caption">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <!-- Call to action -->
+      <section class="bg-light p-3" id="cta">
+        <h1 class="display-5 text-dark font-weight-bold">TRAVELLING ALONE?</h1>
+        <p class="lead text-dark font-weight-bold">
+        FIND YOUR BUDDY HERE
+        </p>
+        <a class="navbar-brand" [routerLink]="['/trips']"><button mat-raised-button color="primary">Search Now</button></a>
+      </section>
+      <!-- end call to action -->
+</div>
