@@ -63,7 +63,7 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/175.de5eef6bfbb1170e.js","/assets/**","/favicon.ico","/assets/manifest.json","/main.4e2c5f7d9952550c.js","/polyfills.aecfcb668fc1827d.js","/runtime.17807ebb87d7adfa.js","/styles.128702e26743ad7f.css","/firebase-messaging-sw.js","/manifest.json","/ws/**","/api/auth/**","/logout","/api/user/**","/api/local/**","/api/trip/**","/api/alllocals","/api/alltrips","/api/filtertrips","/api/filterlocal","/api/googleplacesautocomplete").permitAll()
+        .authorizeRequests().antMatchers("/175.de5eef6bfbb1170e.js","/assets/**","/favicon.ico","/assets/manifest.json","/main.7e68861a8f754a56.js","/polyfills.aecfcb668fc1827d.js","/runtime.0b17749fa6674175.js","/styles.128702e26743ad7f.css","/firebase-messaging-sw.js","/manifest.json","/ws/**","/api/auth/**","/logout","/api/user/**","/api/local/**","/api/trip/**","/api/alllocals","/api/alltrips","/api/filtertrips","/api/filterlocal","/api/googleplacesautocomplete").permitAll()
         .anyRequest().authenticated();
         http.logout().permitAll();
         http.logout().logoutSuccessUrl("/");
